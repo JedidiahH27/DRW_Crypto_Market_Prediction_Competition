@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings # Import warnings to manage the FutureWarning
 
+# DESCRIPTIVE STATISTICS
 
 # Suppress the FutureWarning from seaborn for now, as it's not the critical error
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -183,3 +184,53 @@ if not x_correlations.empty:
     plt.show()
 
 print("\nEDA complete. Further deep dives into specific features or time periods can be done based on these initial findings.")
+
+
+# TIME SERIES
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Ensure seaborn styles are applied
+sns.set(style='whitegrid')
+
+# --- 1. Target Variable ('label') Time Series ---
+plt.figure(figsize=(14, 6))
+train_df[TARGET].plot(label='Original', alpha=0.5)
+train_df[TARGET].rolling(window='6H').mean().plot(label='6-Hour Rolling Mean', linewidth=2)
+plt.title('Target Variable (label) Over Time')
+plt.xlabel('Timestamp')
+plt.ylabel('label')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+
+# --- 2. Public Features Time Series ---
+public_features_to_plot = ['volume', 'bid_qty', 'ask_qty']
+for feature in public_features_to_plot:
+    plt.figure(figsize=(14, 6))
+    train_df[feature].plot(label='Original', alpha=0.5)
+    train_df[feature].rolling(window='6H').mean().plot(label='6-Hour Rolling Mean', linewidth=2)
+    plt.title(f'Public Feature: {feature} Over Time')
+    plt.xlabel('Timestamp')
+    plt.ylabel(feature)
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+# --- 3. Top 3 Correlated X Features Over Time ---
+top_x_features = x_correlations.head(3).index.tolist()
+for feature in top_x_features:
+    plt.figure(figsize=(14, 6))
+    train_df[feature].plot(label='Original', alpha=0.5)
+    train_df[feature].rolling(window='6H').mean().plot(label='6-Hour Rolling Mean', linewidth=2)
+    plt.title(f'Proprietary Feature: {feature} Over Time')
+    plt.xlabel('Timestamp')
+    plt.ylabel(feature)
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
