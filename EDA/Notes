@@ -159,3 +159,9 @@ dtype: float64
 
 
 EDA complete. Further deep dives into specific features or time periods can be done based on these initial findings.
+
+X884, X847, X885, X886, X887, X545, X496, and X849 have the highest mutual information scores.
+
+Features X697..X717 have only -infinity values.
+Features X864, X867 and X869..X872 are always 0.
+Therefore, those columns can be removed.
